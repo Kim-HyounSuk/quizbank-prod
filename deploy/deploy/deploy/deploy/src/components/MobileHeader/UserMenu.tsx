@@ -1,0 +1,49 @@
+'use client'
+
+import LoginIcon from '@/assets/svgs/login.svg'
+import NotificationIcon from '@/assets/svgs/notification.svg'
+import UserIcon from '@/assets/svgs/user.svg'
+import { useCurrentUser } from '@/hooks/queries/user'
+import { useRouter } from 'next/navigation'
+import LoopAnimation from '../LoopAnimation'
+import ProfileMenu from '@/components/ProfileMenu'
+import { useState } from 'react'
+
+export default function UserMenu() {
+    const { data: user, isLoading } = useCurrentUser()
+
+    const router = useRouter()
+    const [isProfileOpen, setIsProfileOpen] = useState(false)
+
+    if (!user)
+        return (
+            <>
+                {isLoading ? (
+                    <div className="size-6 animate-spin">
+                        <LoopAnimation />
+                    </div>
+                ) : (
+                    <LoginIcon
+                        className="size-6 cursor-pointer"
+                        onClick={() => router.push('/login')}
+                    />
+                )}
+            </>
+        )
+
+    return (
+        <>
+            <NotificationIcon
+                className="size-6 cursor-pointer"
+                onClick={() => router.push('/notification')}
+            />
+            <UserIcon
+                className="size-6 cursor-pointer"
+                onClick={() => setIsProfileOpen(true)}
+            />
+            {isProfileOpen && (
+                <ProfileMenu onClose={() => setIsProfileOpen(false)} />
+            )}
+        </>
+    )
+}
