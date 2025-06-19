@@ -1,6 +1,0 @@
-export * from './getCommentList'
-export * from './getRecommentList'
-export * from './postComment'
-export * from './getMyComment'
-export * from './patchComment'
-export * from './deleteComment'
